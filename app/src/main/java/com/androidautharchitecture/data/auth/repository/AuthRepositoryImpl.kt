@@ -3,7 +3,6 @@ package com.androidautharchitecture.data.auth.repository
 import com.androidautharchitecture.app.session.SessionManager
 import com.androidautharchitecture.core.network.safeApiCall
 import com.androidautharchitecture.core.result.AppResult
-import com.androidautharchitecture.core.result.clearSessionIfUnauthorized
 import com.androidautharchitecture.data.auth.mapper.toDto
 import com.androidautharchitecture.data.auth.mapper.toUserSession
 import com.androidautharchitecture.data.auth.remote.api.AuthApi

@@ -1,6 +1,5 @@
 package com.androidautharchitecture.di
 
-import com.androidautharchitecture.data.auth.repository.AuthRepositoryImpl
 import com.androidautharchitecture.data.auth.repository.FakeAuthRepository
 import com.androidautharchitecture.domain.auth.repository.AuthRepository
 import dagger.Binds
