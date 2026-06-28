@@ -1,0 +1,59 @@
+# Built objects and artifacts
+bin/
+gen/
+out/
+build/
+.gradle/
+app/build/
+
+# Local configuration files
+local.properties
+.idea/workspace.xml
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/shelf/
+.idea/modules/
+.idea/compiler.xml
+.idea/gradle.xml
+.idea/jarRepositories.xml
+.idea/misc.xml
+.idea/vcs.xml
+*.iml
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Captures and logs
+captures/
+*.log
+
+# Native build artifacts
+.externalNativeBuild/
+.cxx/
+
+# Android Studio / IntelliJ project-specific
+.navigation/
+.idea/jsLibraryMappings.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/checkstyle-idea.xml
+
+# Keystores (Never commit your production keystore!)
+*.jks
+*.keystore
+*.p12
+
+# Google Services
+# google-services.json
+
+# Crashlytics
+com_crashlytics_export_strings.xml
