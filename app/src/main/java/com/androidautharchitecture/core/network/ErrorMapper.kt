@@ -6,7 +6,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketTimeoutException
 
-fun Throwable.toAppError(): AppError {
+fun Exception.toAppError(): AppError {
 
     return when (this) {
 

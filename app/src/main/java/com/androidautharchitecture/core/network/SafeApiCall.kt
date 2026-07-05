@@ -2,6 +2,9 @@ package com.androidautharchitecture.core.network
 
 
 import com.androidautharchitecture.core.result.AppResult
+import kotlinx.serialization.SerializationException
+import retrofit2.HttpException
+import java.io.IOException
 
 suspend inline fun <T> safeApiCall(
     crossinline apiCall: suspend () -> T
@@ -13,10 +16,14 @@ suspend inline fun <T> safeApiCall(
             apiCall()
         )
 
-    } catch (throwable: Throwable) {
+    } catch (e: Exception) {
 
-        AppResult.Failure(
-            throwable.toAppError()
-        )
+        when (e) {
+            is IOException,
+            is HttpException,
+            is SerializationException -> AppResult.Failure(e.toAppError())
+
+            else -> throw e
+        }
     }
 }
