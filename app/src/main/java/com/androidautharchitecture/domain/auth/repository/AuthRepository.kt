@@ -10,6 +10,12 @@ interface AuthRepository {
         credentials: LoginCredentials
     ): AppResult<UserSession>
 
+    suspend fun refreshToken(
+        refreshToken: String
+    ): AppResult<UserSession>
+
+    suspend fun perform401ErrorCall(): AppResult<Unit>
+
     suspend fun logout(): AppResult<Unit>
 
     suspend fun restoreSession(): UserSession?

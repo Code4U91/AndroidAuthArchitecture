@@ -6,6 +6,7 @@ import com.androidautharchitecture.core.result.AppResult
 import com.androidautharchitecture.data.auth.mapper.toDto
 import com.androidautharchitecture.data.auth.mapper.toUserSession
 import com.androidautharchitecture.data.auth.remote.api.AuthApi
+import com.androidautharchitecture.data.auth.remote.dto.RefreshRequestDto
 import com.androidautharchitecture.domain.auth.model.LoginCredentials
 import com.androidautharchitecture.domain.auth.model.UserSession
 import com.androidautharchitecture.domain.auth.repository.AuthRepository
@@ -26,6 +27,25 @@ class AuthRepositoryImpl @Inject constructor(
             sessionManager.createSession(session)
 
             session
+        }
+    }
+
+    override suspend fun refreshToken(refreshToken: String): AppResult<UserSession> {
+
+        return safeApiCall {
+            val session = api
+                .refreshToken(RefreshRequestDto(refreshToken))
+                .toUserSession()
+
+            sessionManager.createSession(session)
+
+            session
+        }
+    }
+
+    override suspend fun perform401ErrorCall(): AppResult<Unit> {
+        return safeApiCall {
+            api.force401Error()
         }
     }
 

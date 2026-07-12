@@ -15,6 +15,7 @@ fun LoginResponseDto.toUserSession(): UserSession {
     return UserSession(
         userId = userId,
         accessToken = accessToken,
+        refreshToken = refreshToken,
         expiresAt = expireAt.toString()
     )
 }
