@@ -1,4 +1,4 @@
-package com.androidautharchitecture.presentation.main
+package com.androidautharchitecture.presentation.auth
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.androidautharchitecture.presentation.auth.LoginViewModel
 
 @Composable
 fun LoginScreen(

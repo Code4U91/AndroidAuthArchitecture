@@ -20,8 +20,8 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.androidautharchitecture.navigation.Destination
 import com.androidautharchitecture.presentation.RootViewModel
-import com.androidautharchitecture.presentation.main.LoginScreen
-import com.androidautharchitecture.presentation.auth.HomeScreen
+import com.androidautharchitecture.presentation.auth.LoginScreen
+import com.androidautharchitecture.presentation.main.HomeScreen
 import com.androidautharchitecture.ui.theme.AndroidAuthArchitectureTheme
 import dagger.hilt.android.AndroidEntryPoint
 

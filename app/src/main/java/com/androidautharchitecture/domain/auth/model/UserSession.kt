@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 data class UserSession(
     val userId: String,
     val accessToken: String,
+    val refreshToken: String,
     val expiresAt:  String
 )

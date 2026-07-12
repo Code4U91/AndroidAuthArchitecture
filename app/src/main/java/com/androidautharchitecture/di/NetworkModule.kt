@@ -3,7 +3,8 @@ package com.androidautharchitecture.di
 import com.androidautharchitecture.BuildConfig
 import com.androidautharchitecture.core.network.interceptor.AuthInterceptor
 import com.androidautharchitecture.core.network.NetworkConstants
-import com.androidautharchitecture.core.network.interceptor.UnauthorizedInterceptor
+import com.androidautharchitecture.core.network.TokenAuthenticator
+import com.androidautharchitecture.core.network.interceptor.Debug401Interceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,7 +52,8 @@ object NetworkModule {
     fun provideOkHttpClient(
         authInterceptor: AuthInterceptor,
         loggingInterceptor: HttpLoggingInterceptor,
-        unauthorizedInterceptor: UnauthorizedInterceptor
+        tokenAuthenticator: TokenAuthenticator,
+        debug401Interceptor: Debug401Interceptor
     ): OkHttpClient {
 
         return OkHttpClient.Builder()
@@ -59,7 +61,9 @@ object NetworkModule {
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(authInterceptor)
-            .addInterceptor(unauthorizedInterceptor)
+            // Using addNetworkInterceptor so it triggers the Authenticator logic
+            .addNetworkInterceptor(debug401Interceptor) // for temp testing 401, don't put it in production
+            .authenticator(tokenAuthenticator)
             .addInterceptor(loggingInterceptor)
             .build()
     }
