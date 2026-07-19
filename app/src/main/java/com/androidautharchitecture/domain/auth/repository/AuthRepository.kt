@@ -14,6 +14,10 @@ interface AuthRepository {
         idToken: String
     ): AppResult<UserSession>
 
+    suspend fun loginWithFacebook(
+        accessToken: String
+    ): AppResult<UserSession>
+
     suspend fun refreshToken(
         refreshToken: String
     ): AppResult<UserSession>

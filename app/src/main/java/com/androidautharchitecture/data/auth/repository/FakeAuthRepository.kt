@@ -41,6 +41,20 @@ class FakeAuthRepository @Inject constructor(
         return AppResult.Success(session)
     }
 
+    override suspend fun loginWithFacebook(accessToken: String): AppResult<UserSession> {
+
+        val session = UserSession(
+            userId = "facebook_user_123",
+            accessToken = accessToken,
+            refreshToken = "mock_refresh_token_facebook",
+            expiresAt = "2099-01-01T00:00:00Z"
+        )
+
+        sessionManager.createSession(session)
+        return AppResult.Success(session)
+
+    }
+
     override suspend fun refreshToken(refreshToken: String): AppResult<UserSession> {
         val session = UserSession(
             userId = "1",

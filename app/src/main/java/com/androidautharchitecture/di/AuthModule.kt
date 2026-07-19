@@ -1,6 +1,8 @@
 package com.androidautharchitecture.di
 
+import com.androidautharchitecture.core.auth.FacebookAuthClient
 import com.androidautharchitecture.core.auth.GoogleAuthClient
+import com.androidautharchitecture.domain.auth.manager.FacebookAuthManager
 import com.androidautharchitecture.domain.auth.manager.GoogleAuthManager
 import dagger.Binds
 import dagger.Module
@@ -17,4 +19,10 @@ abstract class AuthModule {
     abstract fun bindGoogleAuthManager(
         impl: GoogleAuthClient
     ): GoogleAuthManager
+
+    @Binds
+    @Singleton
+    abstract fun bindFacebookAuthManager(
+        impl: FacebookAuthClient
+    ): FacebookAuthManager
 }

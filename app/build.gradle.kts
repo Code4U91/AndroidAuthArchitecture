@@ -37,6 +37,14 @@ android {
             "GOOGLE_CLIENT_ID",
             "\"${localProperties.getProperty("GOOGLE_CLIENT_ID") ?: ""}\""
         )
+        buildConfigField(
+            "String",
+            "FACEBOOK_APP_ID",
+            "\"${localProperties.getProperty("FACEBOOK_APP_ID") ?: ""}\""
+        )
+
+        manifestPlaceholders["facebookAppId"] = localProperties.getProperty("FACEBOOK_APP_ID") ?: ""
+        manifestPlaceholders["facebookClientToken"] = localProperties.getProperty("FACEBOOK_CLIENT_TOKEN") ?: ""
     }
 
     buildTypes {
@@ -103,6 +111,7 @@ dependencies {
     implementation(libs.androidx.auth.creds)
     implementation(libs.androidx.auth.creds.play)
     implementation(libs.googleid)
+    implementation(libs.facebook.login)
 
     // Logging
     implementation(libs.timber)

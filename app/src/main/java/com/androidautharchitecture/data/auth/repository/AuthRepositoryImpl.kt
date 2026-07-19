@@ -6,6 +6,7 @@ import com.androidautharchitecture.core.result.AppResult
 import com.androidautharchitecture.data.auth.mapper.toDto
 import com.androidautharchitecture.data.auth.mapper.toUserSession
 import com.androidautharchitecture.data.auth.remote.api.AuthApi
+import com.androidautharchitecture.data.auth.remote.dto.FacebookLoginRequestDto
 import com.androidautharchitecture.data.auth.remote.dto.GoogleLoginRequestDto
 import com.androidautharchitecture.data.auth.remote.dto.RefreshRequestDto
 import com.androidautharchitecture.domain.auth.model.LoginCredentials
@@ -39,6 +40,18 @@ class AuthRepositoryImpl @Inject constructor(
             sessionManager.createSession(session)
             session
         }
+
+    }
+
+    override suspend fun loginWithFacebook(accessToken: String): AppResult<UserSession> {
+        return safeApiCall {
+            val session = api
+                .loginWithFacebook(FacebookLoginRequestDto(accessToken))
+                .toUserSession()
+            sessionManager.createSession(session)
+            session
+        }
+
     }
 
     override suspend fun refreshToken(refreshToken: String): AppResult<UserSession> {

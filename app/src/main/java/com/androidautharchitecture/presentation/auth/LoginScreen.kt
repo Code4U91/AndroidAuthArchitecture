@@ -51,5 +51,12 @@ fun LoginScreen(
         ) {
             Text("Login with Google")
         }
+        Spacer(modifier = Modifier.height(8.dp))
+        OutlinedButton(
+            onClick = { viewModel.loginWithFacebook(context) },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Login with Facebook")
+        }
     }
 }
