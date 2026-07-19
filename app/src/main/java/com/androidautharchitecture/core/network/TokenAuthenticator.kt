@@ -2,8 +2,9 @@ package com.androidautharchitecture.core.network
 
 import com.androidautharchitecture.app.session.SessionManager
 import com.androidautharchitecture.app.session.SessionProvider
-import com.androidautharchitecture.core.result.AppResult
-import com.androidautharchitecture.domain.auth.repository.AuthRepository
+import com.androidautharchitecture.data.auth.remote.api.AuthApi
+import com.androidautharchitecture.data.auth.remote.dto.RefreshRequestDto
+import com.androidautharchitecture.data.auth.mapper.toUserSession
 import dagger.Lazy
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
@@ -19,7 +20,7 @@ import javax.inject.Singleton
 class TokenAuthenticator @Inject constructor(
     private val sessionProvider: SessionProvider,
     private val sessionManager: SessionManager,
-    private val authRepository: Lazy<AuthRepository> // resolving circular dependency
+    private val authApi: Lazy<AuthApi> // Inject the API directly to break the cycle
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
@@ -61,23 +62,23 @@ class TokenAuthenticator @Inject constructor(
             }
 
             Timber.tag("AuthTest").d("Starting token refresh...")
-            val refreshResult = runBlocking {
-                authRepository.get().refreshToken(refreshToken)
-            }
+            
+            // Call the API directly using safeApiCall logic (or simplified for Authenticator)
+            return try {
+                val refreshResponse = runBlocking {
+                    authApi.get().refreshToken(RefreshRequestDto(refreshToken))
+                }
+                val newSession = refreshResponse.toUserSession()
+                runBlocking { sessionManager.createSession(newSession) }
 
-            return when (refreshResult) {
-                is AppResult.Success -> {
-                    Timber.tag("AuthTest").d("Refresh SUCCESS. Retrying request with new token.")
-                    response.request.newBuilder()
-                        .header("Authorization", "Bearer ${refreshResult.data.accessToken}")
-                        .build()
-                }
-                is AppResult.Failure -> {
-                    Timber.tag("AuthTest").e("Refresh FAILED. Logging out.")
-                    runBlocking { sessionManager.clearSession() }
-                    null
-                }
-                else -> null
+                Timber.tag("AuthTest").d("Refresh SUCCESS. Retrying request with new token.")
+                response.request.newBuilder()
+                    .header("Authorization", "Bearer ${newSession.accessToken}")
+                    .build()
+            } catch (e: Exception) {
+                Timber.tag("AuthTest").e(e, "Refresh FAILED. Logging out.")
+                runBlocking { sessionManager.clearSession() }
+                null
             }
         }
     }
