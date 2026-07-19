@@ -10,6 +10,14 @@ interface AuthRepository {
         credentials: LoginCredentials
     ): AppResult<UserSession>
 
+    suspend fun loginWithGoogle(
+        idToken: String
+    ): AppResult<UserSession>
+
+    suspend fun loginWithFacebook(
+        accessToken: String
+    ): AppResult<UserSession>
+
     suspend fun refreshToken(
         refreshToken: String
     ): AppResult<UserSession>

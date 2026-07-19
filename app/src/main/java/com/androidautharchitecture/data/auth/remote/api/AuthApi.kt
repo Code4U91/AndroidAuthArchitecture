@@ -1,5 +1,7 @@
 package com.androidautharchitecture.data.auth.remote.api
 
+import com.androidautharchitecture.data.auth.remote.dto.FacebookLoginRequestDto
+import com.androidautharchitecture.data.auth.remote.dto.GoogleLoginRequestDto
 import com.androidautharchitecture.data.auth.remote.dto.LoginRequestDto
 import com.androidautharchitecture.data.auth.remote.dto.LoginResponseDto
 import com.androidautharchitecture.data.auth.remote.dto.RefreshRequestDto
@@ -13,6 +15,16 @@ interface AuthApi {
     @POST("login")
     suspend fun login(
         @Body request: LoginRequestDto
+    ): LoginResponseDto
+
+    @POST("login-google")
+    suspend fun loginWithGoogle(
+        @Body request: GoogleLoginRequestDto
+    ): LoginResponseDto
+
+    @POST("login-facebook")
+    suspend fun loginWithFacebook(
+        @Body request: FacebookLoginRequestDto
     ): LoginResponseDto
 
     @POST("refresh")

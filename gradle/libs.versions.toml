@@ -1,9 +1,9 @@
 [versions]
 # Build Tools & Plugins
 agp = "9.2.1"
-kotlin = "2.4.0"
-ksp = "2.3.9"
-hilt = "2.60"
+kotlin = "2.4.10"
+ksp = "2.3.10"
+hilt = "2.60.1"
 
 # AndroidX Core & Lifecycle
 coreKtx = "1.19.0"
@@ -12,10 +12,10 @@ activityCompose = "1.13.0"
 
 # Compose
 # Note: Kotlin 2.4.0 includes the Compose Compiler plugin
-composeBom = "2026.06.00"
+composeBom = "2026.06.01"
 
 # Navigation 3
-navigation3 = "1.1.3"
+navigation3 = "1.1.4"
 lifecycleViewmodelNav3 = "2.11.0"
 
 # Networking
@@ -30,6 +30,9 @@ datastore = "1.2.1"
 
 # Security
 securityCrypto = "1.1.0"
+credentials = "1.6.0"
+googleid = "1.2.0"
+facebook = "18.3.0"
 
 # Logging
 timber = "5.0.1"
@@ -38,8 +41,8 @@ timber = "5.0.1"
 coroutines = "1.11.0"
 
 # DI Integration
-hiltNavigationCompose = "1.3.0"
-hiltLifecycleViewmodelCompose = "1.2.0"
+hiltNavigationCompose = "1.4.0"
+hiltLifecycleViewmodelCompose = "1.4.0"
 
 # Testing
 junit = "4.13.2"
@@ -88,6 +91,10 @@ androidx-datastore-preferences = { group = "androidx.datastore", name = "datasto
 
 # Security
 androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
+androidx-auth-creds = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
+androidx-auth-creds-play = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentials" }
+googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
+facebook-login = { group = "com.facebook.android", name = "facebook-login", version.ref = "facebook" }
 
 # Logging
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
@@ -103,7 +110,6 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
