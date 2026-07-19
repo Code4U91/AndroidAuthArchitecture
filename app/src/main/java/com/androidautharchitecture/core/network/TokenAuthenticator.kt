@@ -25,6 +25,13 @@ class TokenAuthenticator @Inject constructor(
     override fun authenticate(route: Route?, response: Response): Request? {
         if (response.code != 401) return null
 
+        // Avoid infinite loops: if we've already tried more than twice, stop.
+        if (responseCount(response) >= 3) {
+            Timber.tag("AuthTest").e("Too many 401 retries. Logging out.")
+            runBlocking { sessionManager.clearSession() }
+            return null
+        }
+
         Timber.tag("AuthTest").d("Authenticator triggered for 401")
 
         synchronized(this) {
@@ -73,5 +80,15 @@ class TokenAuthenticator @Inject constructor(
                 else -> null
             }
         }
+    }
+
+    private fun responseCount(response: Response): Int {
+        var result = 1
+        var rs = response.priorResponse
+        while (rs != null) {
+            result++
+            rs = rs.priorResponse
+        }
+        return result
     }
 }
