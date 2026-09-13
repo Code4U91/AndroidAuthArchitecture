@@ -1,4 +1,4 @@
-package com.androidautharchitecture.core.network.connectivity
+package com.androidautharchitecture.data.network.connectivity
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -16,7 +16,7 @@ class NetworkMonitor @Inject constructor(
         val connectivityManager = context.getSystemService<ConnectivityManager>() ?: return false
         val network = connectivityManager.activeNetwork ?: return false
         val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
-        
+
         return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     }

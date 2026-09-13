@@ -1,10 +1,10 @@
-package com.androidautharchitecture.core.network
+package com.androidautharchitecture.data.network
 
 import com.androidautharchitecture.app.session.SessionManager
 import com.androidautharchitecture.app.session.SessionProvider
+import com.androidautharchitecture.data.auth.mapper.toUserSession
 import com.androidautharchitecture.data.auth.remote.api.AuthApi
 import com.androidautharchitecture.data.auth.remote.dto.RefreshRequestDto
-import com.androidautharchitecture.data.auth.mapper.toUserSession
 import dagger.Lazy
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
@@ -20,13 +20,12 @@ import javax.inject.Singleton
 class TokenAuthenticator @Inject constructor(
     private val sessionProvider: SessionProvider,
     private val sessionManager: SessionManager,
-    private val authApi: Lazy<AuthApi> // Inject the API directly to break the cycle
+    private val authApi: Lazy<AuthApi>
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
         if (response.code != 401) return null
 
-        // Avoid infinite loops: if we've already tried more than twice, stop.
         if (responseCount(response) >= 3) {
             Timber.tag("AuthTest").e("Too many 401 retries. Logging out.")
             runBlocking { sessionManager.clearSession() }
@@ -45,16 +44,13 @@ class TokenAuthenticator @Inject constructor(
             Timber.tag("AuthTest").d("Current: $currentToken, Request: $requestToken")
 
             if (currentToken != null && currentToken != requestToken) {
-
                 Timber.tag("AuthTest").d("Token already refreshed by another thread, retrying...")
-
                 return response.request.newBuilder()
                     .header("Authorization", "Bearer $currentToken")
                     .build()
             }
 
             val refreshToken = session?.refreshToken
-
             if (refreshToken == null) {
                 Timber.tag("AuthTest").e("No refresh token available. Logging out.")
                 runBlocking { sessionManager.clearSession() }
@@ -62,8 +58,6 @@ class TokenAuthenticator @Inject constructor(
             }
 
             Timber.tag("AuthTest").d("Starting token refresh...")
-            
-            // Call the API directly using safeApiCall logic (or simplified for Authenticator)
             return try {
                 val refreshResponse = runBlocking {
                     authApi.get().refreshToken(RefreshRequestDto(refreshToken))

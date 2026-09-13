@@ -1,7 +1,7 @@
 package com.androidautharchitecture.di
 
-import com.androidautharchitecture.core.security.AndroidKeystoreCryptoService
-import com.androidautharchitecture.core.security.CryptoService
+import com.androidautharchitecture.data.security.AndroidKeystoreCryptoService
+import com.androidautharchitecture.domain.security.CryptoService
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

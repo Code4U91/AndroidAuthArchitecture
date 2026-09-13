@@ -1,9 +1,9 @@
 package com.androidautharchitecture.data.auth.repository
 
 import com.androidautharchitecture.app.session.SessionManager
-import com.androidautharchitecture.core.network.safeApiCall
 import com.androidautharchitecture.core.result.AppResult
 import com.androidautharchitecture.data.auth.remote.api.AuthApi
+import com.androidautharchitecture.data.network.safeApiCall
 import com.androidautharchitecture.domain.auth.model.LoginCredentials
 import com.androidautharchitecture.domain.auth.model.UserSession
 import com.androidautharchitecture.domain.auth.repository.AuthRepository
@@ -32,7 +32,7 @@ class FakeAuthRepository @Inject constructor(
     override suspend fun loginWithGoogle(idToken: String): AppResult<UserSession> {
         val session = UserSession(
             userId = "google_user_123",
-            accessToken = idToken, // Using idToken as accessToken for testing purposes
+            accessToken = idToken,
             refreshToken = "mock_refresh_token_google",
             expiresAt = "2099-01-01T00:00:00Z"
         )
@@ -42,7 +42,6 @@ class FakeAuthRepository @Inject constructor(
     }
 
     override suspend fun loginWithFacebook(accessToken: String): AppResult<UserSession> {
-
         val session = UserSession(
             userId = "facebook_user_123",
             accessToken = accessToken,
@@ -52,7 +51,6 @@ class FakeAuthRepository @Inject constructor(
 
         sessionManager.createSession(session)
         return AppResult.Success(session)
-
     }
 
     override suspend fun refreshToken(refreshToken: String): AppResult<UserSession> {

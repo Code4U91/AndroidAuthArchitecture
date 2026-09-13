@@ -4,8 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.androidautharchitecture.core.security.CryptoService
 import com.androidautharchitecture.domain.auth.model.UserSession
+import com.androidautharchitecture.domain.security.CryptoService
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
 import javax.inject.Inject

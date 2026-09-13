@@ -19,19 +19,26 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.androidautharchitecture.domain.auth.manager.FacebookAuthManager
+import com.androidautharchitecture.domain.payment.gateway.PaymentGateway
 import com.androidautharchitecture.navigation.Destination
 import com.androidautharchitecture.presentation.RootViewModel
 import com.androidautharchitecture.presentation.auth.LoginScreen
 import com.androidautharchitecture.presentation.main.HomeScreen
+import com.androidautharchitecture.presentation.payment.PaymentScreen
 import com.androidautharchitecture.ui.theme.AndroidAuthArchitectureTheme
+import com.razorpay.PaymentData
+import com.razorpay.PaymentResultWithDataListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
 
     @Inject
     lateinit var facebookAuthManager: FacebookAuthManager
+
+    @Inject
+    lateinit var paymentGateway: PaymentGateway
 
     private val viewModel: RootViewModel by viewModels()
 
@@ -68,7 +75,20 @@ class MainActivity : ComponentActivity() {
                                     LoginScreen()
                                 }
                                 entry<Destination.Home> {
-                                    HomeScreen()
+                                    HomeScreen(
+                                        onPaymentClick = {
+                                            backStack.add(Destination.Payment)
+                                        }
+                                    )
+                                }
+                                entry<Destination.Payment> {
+                                    PaymentScreen(
+                                        onBackClick = {
+                                            if (backStack.size > 1) {
+                                                backStack.removeAt(backStack.size - 1)
+                                            }
+                                        }
+                                    )
                                 }
                             }
                         )
@@ -78,10 +98,21 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onPaymentSuccess(razorpayPaymentId: String?, paymentData: PaymentData?) {
+        val paymentId = razorpayPaymentId ?: paymentData?.paymentId ?: ""
+        val orderId = paymentData?.orderId ?: ""
+        val signature = paymentData?.signature ?: ""
+        paymentGateway.handlePaymentSuccess(paymentId, orderId, signature)
+    }
+
+    override fun onPaymentError(errorCode: Int, response: String?, paymentData: PaymentData?) {
+        paymentGateway.handlePaymentError(errorCode, response ?: "Payment processing failed", paymentData?.orderId)
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        
+
         /**
          * FACEBOOK AUTH BRIDGE:
          * Although onActivityResult is deprecated in favor of the Activity Result API,

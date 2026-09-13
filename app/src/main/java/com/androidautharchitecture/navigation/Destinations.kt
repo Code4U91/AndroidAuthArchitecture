@@ -7,7 +7,10 @@ import kotlinx.serialization.Serializable
 sealed interface Destination : NavKey {
     @Serializable
     data object Login : Destination
-    
+
     @Serializable
     data object Home : Destination
+
+    @Serializable
+    data object Payment : Destination
 }

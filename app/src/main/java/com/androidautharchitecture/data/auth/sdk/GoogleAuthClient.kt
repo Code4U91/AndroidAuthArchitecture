@@ -1,4 +1,4 @@
-package com.androidautharchitecture.core.auth
+package com.androidautharchitecture.data.auth.sdk
 
 import android.content.Context
 import androidx.credentials.CredentialManager
@@ -14,6 +14,10 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Implementation of [GoogleAuthManager] using Google Credential Manager API.
+ * Lives in the Data/Infrastructure layer.
+ */
 @Singleton
 class GoogleAuthClient @Inject constructor(
     @param:ApplicationContext private val context: Context,
@@ -21,7 +25,6 @@ class GoogleAuthClient @Inject constructor(
     private val credentialManager = CredentialManager.create(context)
 
     override suspend fun getGoogleIdToken(activityContext: Context): String? {
-
         Timber.d("Using Client ID: ${BuildConfig.GOOGLE_CLIENT_ID}")
         val googleIdOption = GetSignInWithGoogleOption.Builder(
             serverClientId = BuildConfig.GOOGLE_CLIENT_ID

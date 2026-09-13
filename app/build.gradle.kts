@@ -42,6 +42,11 @@ android {
             "FACEBOOK_APP_ID",
             "\"${localProperties.getProperty("FACEBOOK_APP_ID") ?: ""}\""
         )
+        buildConfigField(
+            "String",
+            "RAZORPAY_KEY_ID",
+            "\"${localProperties.getProperty("RAZORPAY_KEY_ID") ?: ""}\""
+        )
 
         manifestPlaceholders["facebookAppId"] = localProperties.getProperty("FACEBOOK_APP_ID") ?: ""
         manifestPlaceholders["facebookClientToken"] = localProperties.getProperty("FACEBOOK_CLIENT_TOKEN") ?: ""
@@ -112,6 +117,9 @@ dependencies {
     implementation(libs.androidx.auth.creds.play)
     implementation(libs.googleid)
     implementation(libs.facebook.login)
+
+    // Payment
+    implementation(libs.razorpay.checkout)
 
     // Logging
     implementation(libs.timber)

@@ -1,4 +1,4 @@
-package com.androidautharchitecture.core.security
+package com.androidautharchitecture.data.security
 
 internal object CryptoConstants {
 
@@ -13,5 +13,4 @@ internal object CryptoConstants {
     const val IV_LENGTH = 12
 
     const val AUTH_TAG_LENGTH = 128
-
 }

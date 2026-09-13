@@ -1,4 +1,4 @@
-package com.androidautharchitecture.core.network.interceptor
+package com.androidautharchitecture.data.network.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -9,13 +9,11 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
-// TEST INTERCEPTOR - for simulating 401 error and checking token refresh
 @Singleton
 class Debug401Interceptor @Inject constructor() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        
+
         val response = try {
             chain.proceed(request)
         } catch (_: Exception) {
@@ -29,10 +27,8 @@ class Debug401Interceptor @Inject constructor() : Interceptor {
         }
 
         val authHeader = request.header("Authorization") ?: ""
-        
+
         if (request.url.toString().contains("force-401")) {
-            //  We check if it is EXACTLY the initial fake token.
-            // Refreshed tokens contain a timestamp and the "new-" prefix, so they won't match this.
             if (authHeader == "Bearer fake-jwt-token") {
                 Timber.tag("AuthTest").d("Network Level: Found INITIAL token -> Forcing 401")
                 return response.newBuilder()
@@ -49,7 +45,7 @@ class Debug401Interceptor @Inject constructor() : Interceptor {
                     .build()
             }
         }
-        
+
         return response
     }
 }
