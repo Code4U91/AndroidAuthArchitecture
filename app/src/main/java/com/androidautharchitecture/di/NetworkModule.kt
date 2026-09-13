@@ -1,11 +1,11 @@
 package com.androidautharchitecture.di
 
 import com.androidautharchitecture.BuildConfig
-import com.androidautharchitecture.core.network.NetworkConstants
-import com.androidautharchitecture.core.network.TokenAuthenticator
-import com.androidautharchitecture.core.network.interceptor.AuthInterceptor
-import com.androidautharchitecture.core.network.interceptor.ConnectivityInterceptor
-import com.androidautharchitecture.core.network.interceptor.Debug401Interceptor
+import com.androidautharchitecture.data.network.NetworkConstants
+import com.androidautharchitecture.data.network.TokenAuthenticator
+import com.androidautharchitecture.data.network.interceptor.AuthInterceptor
+import com.androidautharchitecture.data.network.interceptor.ConnectivityInterceptor
+import com.androidautharchitecture.data.network.interceptor.Debug401Interceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +26,6 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideJson() : Json {
-
         return Json {
             ignoreUnknownKeys = true
             encodeDefaults = true
@@ -39,7 +38,6 @@ object NetworkModule {
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
-
             level = if(BuildConfig.DEBUG) {
                 HttpLoggingInterceptor.Level.BODY
             } else {
@@ -64,8 +62,7 @@ object NetworkModule {
             .writeTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(connectivityInterceptor)
             .addInterceptor(authInterceptor)
-            // Using addNetworkInterceptor so it triggers the Authenticator logic
-            .addNetworkInterceptor(debug401Interceptor) // for temp testing 401, don't put it in production
+            .addNetworkInterceptor(debug401Interceptor)
             .authenticator(tokenAuthenticator)
             .addInterceptor(loggingInterceptor)
             .build()

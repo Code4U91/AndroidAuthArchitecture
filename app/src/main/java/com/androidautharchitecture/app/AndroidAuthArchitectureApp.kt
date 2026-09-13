@@ -2,6 +2,7 @@ package com.androidautharchitecture.app
 
 import android.app.Application
 import com.androidautharchitecture.BuildConfig
+import com.razorpay.Checkout
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -12,5 +13,7 @@ class AndroidAuthArchitectureApp : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+        // Preload Razorpay Checkout resources for faster checkout load time
+        Checkout.preload(applicationContext)
     }
 }

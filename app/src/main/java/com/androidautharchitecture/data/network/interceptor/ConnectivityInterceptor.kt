@@ -1,6 +1,6 @@
-package com.androidautharchitecture.core.network.interceptor
+package com.androidautharchitecture.data.network.interceptor
 
-import com.androidautharchitecture.core.network.connectivity.NetworkMonitor
+import com.androidautharchitecture.data.network.connectivity.NetworkMonitor
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException

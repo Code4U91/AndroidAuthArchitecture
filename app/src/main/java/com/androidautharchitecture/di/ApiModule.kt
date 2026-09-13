@@ -1,6 +1,7 @@
 package com.androidautharchitecture.di
 
 import com.androidautharchitecture.data.auth.remote.api.AuthApi
+import com.androidautharchitecture.data.payment.remote.api.PaymentApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,8 +18,14 @@ object ApiModule {
     fun provideAuthApi(
         retrofit: Retrofit
     ): AuthApi {
-        return retrofit.create(
-            AuthApi::class.java
-        )
+        return retrofit.create(AuthApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePaymentApi(
+        retrofit: Retrofit
+    ): PaymentApi {
+        return retrofit.create(PaymentApi::class.java)
     }
 }

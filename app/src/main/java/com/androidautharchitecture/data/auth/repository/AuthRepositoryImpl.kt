@@ -1,7 +1,6 @@
 package com.androidautharchitecture.data.auth.repository
 
 import com.androidautharchitecture.app.session.SessionManager
-import com.androidautharchitecture.core.network.safeApiCall
 import com.androidautharchitecture.core.result.AppResult
 import com.androidautharchitecture.data.auth.mapper.toDto
 import com.androidautharchitecture.data.auth.mapper.toUserSession
@@ -9,6 +8,7 @@ import com.androidautharchitecture.data.auth.remote.api.AuthApi
 import com.androidautharchitecture.data.auth.remote.dto.FacebookLoginRequestDto
 import com.androidautharchitecture.data.auth.remote.dto.GoogleLoginRequestDto
 import com.androidautharchitecture.data.auth.remote.dto.RefreshRequestDto
+import com.androidautharchitecture.data.network.safeApiCall
 import com.androidautharchitecture.domain.auth.model.LoginCredentials
 import com.androidautharchitecture.domain.auth.model.UserSession
 import com.androidautharchitecture.domain.auth.repository.AuthRepository
