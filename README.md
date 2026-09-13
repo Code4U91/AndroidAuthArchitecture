@@ -125,7 +125,7 @@ sequenceDiagram
     Repo->>API: POST /api/v1/payment/create-order
     API-->>VM: AppResult.Success(PaymentOrder)
     
-    VM->>GW: openCheckout(activity, orderId, 49900, ...)
+    VM->>GW: openCheckout(activity, orderId, 49900)
     GW->>SDK: Checkout.open(activity, optionsJson)
     SDK->>User: Opens Razorpay Native Checkout Dialog
     

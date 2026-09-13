@@ -47,7 +47,7 @@ sequenceDiagram
     UC-->>VM: AppResult.Success(PaymentOrder)
     
     VM->>VM: Update state -> AwaitingPayment(orderId)
-    VM->>GW: openCheckout(activity, orderId, 49900, ...)
+    VM->>GW: openCheckout(activity, orderId, 49900)
     GW->>SDK: Checkout.open(activity, optionsJson)
     SDK->>User: Renders Razorpay Payment Dialog (Cards / UPI / Netbanking)
     
@@ -162,7 +162,16 @@ Because of our Clean Architecture design, adding **Stripe**, **PayPal**, or **Go
        private val _paymentResult = MutableSharedFlow<PaymentResult>(extraBufferCapacity = 64)
        override val paymentResult: SharedFlow<PaymentResult> = _paymentResult.asSharedFlow()
 
-       override fun openCheckout(activity: Activity, orderId: String, amountInPaisa: Long, ...) {
+       override fun openCheckout(
+           activity: Activity,
+           orderId: String,
+           amountInPaisa: Long,
+           currency: String,
+           name: String,
+           description: String,
+           userEmail: String,
+           userContact: String
+       ) {
            // Present Stripe PaymentSheet
        }
    }
